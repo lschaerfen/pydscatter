@@ -1,10 +1,10 @@
 # pydscatter
 
-pydscatter is a Python implementation of the dscatter algorithm by [Paul Eilers and Jelle Goeman](https://academic.oup.com/bioinformatics/article/20/5/623/213453). It is a fast algorithm that generates 2D histograms based on point density, which are then mapped back onto the data points to create scatter plots colored by density. This helps visualizing large data sets. This lightweight implementation requires only `numpy` and `matplotlib` for plotting. Supported are simple scatter plots, contour plots, and images rendered from the density information only.
+pydscatter is a Python implementation of the dscatter algorithm by [Paul Eilers and Jelle Goeman](https://academic.oup.com/bioinformatics/article/20/5/623/213453). It is a fast algorithm that generates scatter plots colored by density of the points, which helps visualizing large data sets. This lightweight implementation requires only numpy and matplotlib for plotting. Supported are simple scatter plots, contour plots, and images rendered from the density information only.
 
 ## Installation
 
-Copy the `pydscatter.py` file into the folder that contains your python script and import the functions of choice (see below).
+Copy the `pydscatter.py` file into the folder that contains your python script, and import the functions of choice (see below).
 
 ## Examples
 
@@ -35,7 +35,7 @@ This is not a very useful visualization of the data. We know, from the code abov
 from pydscatter import dscatter_plot
 
 # default parameters
-dscatter_plot(X, Y, nbins=[], lamb=20, ax=None)
+dscatter_plot(X, Y, nbins=[], lamb=20, markersize=5, ax=None)
 plt.show()
 ```
 
@@ -43,7 +43,7 @@ plt.show()
 ![png](README_files/README_4_0.png)
 
 
-The smoothness parameter `lamb` (lower=smoother) and the number of bins in x or y direction can be tuned.
+The smoothness parameter $\lambda$ (lower=smoother) and the number of bins in x or y direction can be tuned.
 
 
 ```python
@@ -113,13 +113,35 @@ plt.show()
 ![png](README_files/README_10_0.png)
 
 
-For additional applications the colormap, density matrix, and contours can be retrieved from the main function:
+### Additional Applications
+
+For additional applications the colormap, density matrix, and contours can be retrieved from the main function. For example, if the density values should be calculated in logarithmic space.
 
 
 ```python
+# sample data spanning orders of magnitude:
+X_log = abs(np.hstack((np.random.normal(0.1, 0.2, 10000), np.random.normal(10, 7, 10000))))
+Y_log = abs(np.hstack((np.random.normal(0.1, 0.05, 10000), np.random.normal(10, 30, 10000))))
+
+# import pydscatter function, which returns an array corresponding to densities
 from pydscatter import pydscatter
-col, F, ctrs1, ctrs2 = pydscatter(X, Y, lamb=50)
+
+# get densities in log10 space
+col, F, ctrs1, ctrs2 = pydscatter(np.log10(X_log), np.log10(Y_log), lamb=50)
+
+# plot
+fig, axs = plt.subplots(1, 2, figsize=(10,3), sharey=True)
+# standard densities
+dscatter_plot(X_log, Y_log, ax=axs[0])
+axs[0].set_title('density in linear space')
+# log densities
+axs[1].scatter(X_log, Y_log, 5, col)
+axs[1].set_title('custom density in log space')
+
+plt.setp(axs, yscale='log', xscale='log')
+plt.show()
 ```
 
 
---Leonard Schärfen
+![png](README_files/README_13_0.png)
+
