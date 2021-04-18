@@ -17,7 +17,7 @@ def dscatter_plot(X, Y, nbins=[], order=False, lamb=20, markersize=5, ax=None, *
     col, _, _, _ = pydscatter(X, Y, nbins, lamb)
 
     if order:
-        sorting = np.argsort(-col)
+        sorting = np.argsort(col)
     else:
         sorting = np.arange(0, len(col))
 
