@@ -15,6 +15,7 @@ Generate an example data set with a large number of points:
 import numpy as np
 import matplotlib.pyplot as plt
 
+np.random.seed(69)
 X = np.hstack((np.random.normal(-5, 2.5, 100000), np.random.normal(2, 1.5, 100000)))
 Y = np.hstack((np.random.gamma(3, 2, 150000)-10, np.random.normal(0, 2, 50000)))
 
@@ -23,7 +24,9 @@ plt.show()
 ```
 
 
+    
 ![png](README_files/README_2_0.png)
+    
 
 
 This is not a very useful visualization of the data. We know, from the code above, that there are multiple convoluted distributions within this cloud.
@@ -35,12 +38,14 @@ This is not a very useful visualization of the data. We know, from the code abov
 from pydscatter import dscatter_plot
 
 # default parameters
-dscatter_plot(X, Y, nbins=[], lamb=20, markersize=5, ax=None)
+dscatter_plot(X, Y, nbins=[], order=False, lamb=20, markersize=5, ax=None)
 plt.show()
 ```
 
 
+    
 ![png](README_files/README_4_0.png)
+    
 
 
 The smoothness parameter $\lambda$ (lower=smoother) and the number of bins in x or y direction can be tuned.
@@ -68,7 +73,9 @@ plt.show()
 ```
 
 
+    
 ![png](README_files/README_6_0.png)
+    
 
 
 ### II. Contour Plot with density coloring
@@ -89,7 +96,9 @@ plt.show()
 ```
 
 
+    
 ![png](README_files/README_8_0.png)
+    
 
 
 ### III. Image colored by density
@@ -110,7 +119,9 @@ plt.show()
 ```
 
 
+    
 ![png](README_files/README_10_0.png)
+    
 
 
 ### Additional Applications
@@ -120,6 +131,7 @@ For additional applications the colormap, density matrix, and contours can be re
 
 ```python
 # sample data spanning orders of magnitude:
+np.random.seed(42)
 X_log = abs(np.hstack((np.random.normal(0.1, 0.2, 10000), np.random.normal(10, 7, 10000))))
 Y_log = abs(np.hstack((np.random.normal(0.1, 0.05, 10000), np.random.normal(10, 30, 10000))))
 
@@ -143,5 +155,7 @@ plt.show()
 ```
 
 
+    
 ![png](README_files/README_13_0.png)
+    
 
